@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Henz Montera/Desktop/CC106_FinalProject_Montera/app/src/main/res/layout/activity_dashboard.xml" value="0.24230072463768115" />
+        <entry key="..\:/Users/Henz Montera/Desktop/CC106_FinalProject_Montera/app/src/main/res/layout/activity_login.xml" value="0.24230072463768115" />
         <entry key="..\:/Users/Henz Montera/Desktop/CC106_FinalProject_Montera/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Henz Montera/Desktop/CC106_FinalProject_Montera/app/src/main/res/layout/activity_register.xml" value="0.24230072463768115" />
+        <entry key="..\:/Users/Henz Montera/Desktop/CC106_FinalProject_Montera/app/src/main/res/layout/activity_view.xml" value="0.20652173913043478" />
+        <entry key="..\:/Users/Henz Montera/Desktop/CC106_FinalProject_Montera/app/src/main/res/layout/data_adapt.xml" value="0.20652173913043478" />
       </map>
     </option>
   </component>
