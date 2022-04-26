@@ -10,6 +10,10 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
+// Author: John Henly Montera
+// BSIT 3rd-Year
+// April 26 ,2022
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
