@@ -55,27 +55,36 @@ public class LoginActivity extends AppCompatActivity {
 
         myDB.close();
 
-        loginbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        loginbutton.setOnClickListener(view -> {
+            try{
+
                 Cursor acc_count = myDB.rawQuery("SELECT COUNT(*) FROM useracc where useracc.email = ? AND useracc.password = ?;", new String[] {emailmain.getText().toString(),passwordmain.getText().toString()});
+                Cursor getname = myDB.rawQuery("SELECT name FROM useracc where useracc.email = ? AND useracc.password = ?;", new String[] {emailmain.getText().toString(),passwordmain.getText().toString()});
+                int nameindex = getname.getColumnIndex("name");
+                String name = getname.getString(nameindex);
                 if (acc_count != null){
                     Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                    intent.putExtra("name", name);
                     startActivity(intent);
                     Toast.makeText(LoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Invalid Credentials! Please Try Again!", Toast.LENGTH_SHORT).show();
                 }
+            } catch (Exception e){
+                Toast.makeText(this, "Error Occurred! Please Try Again Later ", Toast.LENGTH_SHORT).show();
             }
+
         });
 
-        registerbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        registerbutton.setOnClickListener(view -> {
+            try{
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+            } catch (Exception e){
+                Toast.makeText(this, "Error Occurred! Please Try Again Later ", Toast.LENGTH_SHORT).show();
             }
+
         });
 
     }
