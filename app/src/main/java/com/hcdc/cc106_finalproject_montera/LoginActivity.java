@@ -64,8 +64,8 @@ public class LoginActivity extends AppCompatActivity {
                 countindex = acc_count.getColumnIndex("count");
                 countacc = acc_count.getString(countindex);
             }
-            Cursor getname = myDB.rawQuery("SELECT name FROM useracc where useracc.email = ? AND useracc.password = ?;", new String[] {emailmain.getText().toString(),passwordmain.getText().toString()});
 
+            Cursor getname = myDB.rawQuery("SELECT name FROM useracc where useracc.email = ? AND useracc.password = ?;", new String[] {emailmain.getText().toString(),passwordmain.getText().toString()});
             while (getname.moveToNext()){
                 nameindex = getname.getColumnIndex("name");
                 name = getname.getString(nameindex);
