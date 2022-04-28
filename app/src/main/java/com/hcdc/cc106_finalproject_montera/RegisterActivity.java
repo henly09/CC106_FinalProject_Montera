@@ -27,9 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
         confirmpassword = findViewById(R.id.confirmpassword);
         createuser = findViewById(R.id.createuser);
 
-
         createuser.setOnClickListener(view -> {
-            if (passwordregistermain.equals(confirmpassword)){
+            if (passwordregistermain.getText().toString().equals(confirmpassword.getText().toString())){
                 register(emailregistermain.getText().toString(),passwordregistermain.getText().toString(),name.getText().toString());
             }
             else{
@@ -45,11 +44,11 @@ public class RegisterActivity extends AppCompatActivity {
         myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
         ContentValues cv = new ContentValues();
         cv.put("name", name);
+        cv.put("status", "new");
         cv.put("email", password);
         cv.put("password", email);
         myDB.insert("useracc", null, cv);
         myDB.close();
-
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
         Toast.makeText(RegisterActivity.this, "Register Successfully!", Toast.LENGTH_SHORT).show();

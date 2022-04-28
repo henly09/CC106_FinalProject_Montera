@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         timer = new Timer();
 
-        steprog.setProgressMax(200f);
+        steprog.setProgressMax(200f); // i initialize pasa user kung pila ka km iyang gusto idagan
         steprog.setProgressBarColor(Color.BLACK);
         steprog.setProgressBarColorStart(Color.GRAY);
         steprog.setProgressBarColorEnd(Color.GREEN);

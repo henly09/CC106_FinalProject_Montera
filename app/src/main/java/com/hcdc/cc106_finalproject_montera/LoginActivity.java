@@ -16,6 +16,8 @@ public class LoginActivity extends AppCompatActivity {
     SQLiteDatabase myDB;
     EditText emailmain,passwordmain;
     Button loginbutton,registerbutton;
+    String countacc,name;
+    int nameindex,countindex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +58,33 @@ public class LoginActivity extends AppCompatActivity {
         myDB.close();
 
         loginbutton.setOnClickListener(view -> {
-            try{
-
-                Cursor acc_count = myDB.rawQuery("SELECT COUNT(*) FROM useracc where useracc.email = ? AND useracc.password = ?;", new String[] {emailmain.getText().toString(),passwordmain.getText().toString()});
-                Cursor getname = myDB.rawQuery("SELECT name FROM useracc where useracc.email = ? AND useracc.password = ?;", new String[] {emailmain.getText().toString(),passwordmain.getText().toString()});
-                int nameindex = getname.getColumnIndex("name");
-                String name = getname.getString(nameindex);
-                if (acc_count != null){
-                    Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                    intent.putExtra("name", name);
-                    startActivity(intent);
-                    Toast.makeText(LoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(LoginActivity.this, "Invalid Credentials! Please Try Again!", Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e){
-                Toast.makeText(this, "Error Occurred! Please Try Again Later ", Toast.LENGTH_SHORT).show();
+        try {
+            myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
+            Cursor acc_count = myDB.rawQuery("SELECT COUNT(*) AS count FROM useracc where useracc.email = ? AND useracc.password = ?;", new String[] {emailmain.getText().toString(),passwordmain.getText().toString()});
+            while (acc_count.moveToNext()){
+                countindex = acc_count.getColumnIndex("count");
+                countacc = acc_count.getString(countindex);
             }
+            Cursor getname = myDB.rawQuery("SELECT name FROM useracc where useracc.email = ? AND useracc.password = ?;", new String[] {emailmain.getText().toString(),passwordmain.getText().toString()});
+
+            while (getname.moveToNext()){
+                nameindex = getname.getColumnIndex("name");
+                name = getname.getString(nameindex);
+            }
+
+            myDB.close();
+            if (Integer.parseInt(countacc) != 0){
+                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                intent.putExtra("name", "Hello! "+name);
+                startActivity(intent);
+                Toast.makeText(LoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(LoginActivity.this, "Invalid Credentials! Please Try Again!", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e){
+            Toast.makeText(this, "Error Occurred! Please Try Again Later...", Toast.LENGTH_SHORT).show();
+        }
 
         });
 
