@@ -35,12 +35,7 @@ public class LoginActivity extends AppCompatActivity {
                 "user_id integer primary key autoincrement," +
                 "name varchar(255) UNIQUE," +
                 "password varchar(255)," +
-                "email varchar(255) UNIQUE" +
-                ")");
-
-        myDB.execSQL("create table if not exists userstats (" +
-                "userstats_id integer primary key autoincrement," +
-                "user_id integer," +
+                "email varchar(255) UNIQUE," +
                 "user_kg integer," +
                 "count_sessions integer" +
                 ")");

@@ -1,7 +1,10 @@
 package com.hcdc.cc106_finalproject_montera;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -9,9 +12,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
@@ -28,6 +36,7 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
 
     private ToggleButton stopandgo;
+    private Button endsessionmain;
     private TextView steps,distance,calburned,timerText;
     private CircularProgressBar steprog;
     private double MagnitudePrevious = 0;
@@ -37,22 +46,42 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
     private TimerTask timerTask;
     private Double time = 0.0;
+    private Integer goal_distance = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        steps = findViewById(R.id.steps);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Distance Goal!");
+        alert.setMessage("Message : Enter your today's session distance goal!");
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                int kmtosteps = Integer.parseInt(input.getText().toString());
+                Double converter = kmtosteps * 1312.3359580083;
+                goal_distance = converter.intValue();
+                return;
+            }
+        });
+        alert.show();
+
+        steps = findViewById(R.id.steps); //
         steprog = findViewById(R.id.steprog);
-        distance = findViewById(R.id.distance);
-        calburned = findViewById(R.id.calburned);
+        distance = findViewById(R.id.distance); //
+        calburned = findViewById(R.id.calburned); //
         stopandgo = findViewById(R.id.stopandgo);
-        timerText = findViewById(R.id.timerText);
+        timerText = findViewById(R.id.timerText); //
+        endsessionmain = findViewById(R.id.endsession);
 
         timer = new Timer();
 
-        steprog.setProgressMax(200f); // i initialize pasa user kung pila ka km iyang gusto idagan
+        steprog.setProgressMax(goal_distance);
         steprog.setProgressBarColor(Color.BLACK);
         steprog.setProgressBarColorStart(Color.GRAY);
         steprog.setProgressBarColorEnd(Color.GREEN);
@@ -112,6 +141,17 @@ public class MainActivity extends AppCompatActivity {
                     timerTask.cancel();
                 }
             }
+        });
+
+        endsessionmain.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ViewActivity.class);
+            intent.putExtra("sessionnumber","");
+            intent.putExtra("steps",steps.getText().toString());
+            intent.putExtra("distance",distance.getText().toString());
+            intent.putExtra("calburned",calburned.getText().toString());
+            intent.putExtra("timer",timerText.getText().toString());
+            startActivity(intent);
+            Toast.makeText(MainActivity.this, "Session Finished!", Toast.LENGTH_SHORT).show();
         });
 
     }

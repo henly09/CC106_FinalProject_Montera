@@ -73,6 +73,7 @@ public class DashboardActivity extends AppCompatActivity {
         addsessionmain.setOnClickListener(view ->{
             try{
                 Intent addsession = new Intent(DashboardActivity.this, MainActivity.class);
+                addsession.putExtra("name", name);
                 startActivity(addsession);
             } catch (Exception e){
                 Toast.makeText(this, "Error Occurred! Please Try Again Later ", Toast.LENGTH_SHORT).show();

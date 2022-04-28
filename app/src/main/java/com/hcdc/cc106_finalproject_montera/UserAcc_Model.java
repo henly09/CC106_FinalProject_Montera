@@ -28,7 +28,6 @@ public class UserAcc_Model {
         this.name = name;
     }
 
-
     public String getPassword() {
         return password;
     }
