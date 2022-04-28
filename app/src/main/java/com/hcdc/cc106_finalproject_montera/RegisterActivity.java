@@ -44,7 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
         myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
         ContentValues cv = new ContentValues();
         cv.put("name", name);
-        cv.put("status", "new");
         cv.put("email", password);
         cv.put("password", email);
         myDB.insert("useracc", null, cv);

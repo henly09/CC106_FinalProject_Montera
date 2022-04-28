@@ -5,13 +5,24 @@ public class UserStats_Model {
     private int session_id,user_id,calories_burned,steps_count,distance;
     private String created_at;
 
-    public UserStats_Model(int session_id,int user_id,int calories_burned,int steps_count,int distance,String created_at){
-        this.session_id = session_id;
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    private String duration;
+
+    public UserStats_Model(int session_id,int user_id,int calories_burned,int steps_count,int distance,String created_at,String duration){
+        this.session_id = session_id; //
         this.user_id = user_id;
-        this.calories_burned = calories_burned;
-        this.steps_count = steps_count;
-        this.distance = distance;
-        this.created_at = created_at;
+        this.calories_burned = calories_burned; //
+        this.steps_count = steps_count; //
+        this.distance = distance; //
+        this.created_at = created_at; //
+        this.duration = duration; //
     }
 
     public int getSession_id() {

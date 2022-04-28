@@ -8,7 +8,7 @@ public class UserSessionStats_Model {
         this.userstats_id = userstats_id;
         this.user_id = user_id;
         this.user_kg = user_kg;
-        this.count_sessions =count_sessions;
+        this.count_sessions = count_sessions;
     }
 
     public int getUserstats_id() {

@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         myDB.execSQL("create table if not exists useracc (" +
                 "user_id integer primary key autoincrement," +
                 "name varchar(255) UNIQUE," +
-                "status varchar(255)," +
                 "password varchar(255)," +
                 "email varchar(255) UNIQUE" +
                 ")");

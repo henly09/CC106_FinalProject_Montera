@@ -3,12 +3,11 @@ package com.hcdc.cc106_finalproject_montera;
 public class UserAcc_Model {
 
     private int user_id;
-    private String name,status,password,email;
+    private String name,password,email;
 
-    public UserAcc_Model(int user_id,String name,String status,String password,String email){
+    public UserAcc_Model(int user_id,String name,String password,String email){
         this.user_id = user_id;
         this.name = name;
-        this.status = status;
         this.password = password;
         this.email= email;
     }
@@ -29,13 +28,6 @@ public class UserAcc_Model {
         this.name = name;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public String getPassword() {
         return password;
