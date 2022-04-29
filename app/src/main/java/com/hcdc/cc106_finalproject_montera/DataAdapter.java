@@ -2,6 +2,7 @@ package com.hcdc.cc106_finalproject_montera;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,7 +25,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataView>{
     @NonNull
     @Override
     public DataAdapter.DataView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.data_adapt, parent, false);
+        return new DataView(view);
     }
 
     @Override

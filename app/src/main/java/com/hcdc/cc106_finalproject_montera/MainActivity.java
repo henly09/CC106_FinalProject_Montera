@@ -50,34 +50,15 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
     private TimerTask timerTask;
     private Double time = 0.0;
-    private Integer goal_distance = 0;
     SQLiteDatabase myDB;
     private String extractedid;
     private Double mainkg;
-    private int mainsession;
+    private Integer mainsession = 0 ,tosteps = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Distance Goal!");
-        alert.setMessage("Message : Enter your today's session distance goal!");
-        // Set an EditText view to get user input
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        alert.setView(input);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                int kmtosteps = Integer.parseInt(input.getText().toString());
-                Double converter = kmtosteps * 1312.3359580083;
-                goal_distance = converter.intValue();
-                return;
-            }
-        });
-        alert.show();
 
         steps = findViewById(R.id.steps); //
         steprog = findViewById(R.id.steprog);
@@ -89,7 +70,25 @@ public class MainActivity extends AppCompatActivity {
 
         timer = new Timer();
 
-        steprog.setProgressMax(goal_distance);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Distance Goal!");
+        alert.setMessage("Message : Enter your today's session distance goal in KM!");
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                int kmtosteps = Integer.parseInt(input.getText().toString());
+                Double converter = kmtosteps * 1312.3359580083;
+                tosteps = converter.intValue();
+                return;
+            }
+        });
+        alert.show();
+
+        steprog.setProgressMax(tosteps);
         steprog.setProgressBarColor(Color.BLACK);
         steprog.setProgressBarColorStart(Color.GRAY);
         steprog.setProgressBarColorEnd(Color.GREEN);
@@ -240,7 +239,9 @@ public class MainActivity extends AppCompatActivity {
         return String.format("%02d",hours) + " : " + String.format("%02d",minutes) + " : " + String.format("%02d",seconds);
     }
 
-    protected void onPause() {
+
+    // purpose ani is if ma close ang app is continue ma save ang progress sa step listener the nmu continue if i open ang step listener
+/*    protected void onPause() {
         super.onPause();
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -262,8 +263,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
-
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         stepCount = sharedPreferences.getInt("stepCount", 0);
-    }
+    }*/
 }

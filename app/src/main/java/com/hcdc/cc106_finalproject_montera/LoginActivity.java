@@ -29,6 +29,11 @@ public class LoginActivity extends AppCompatActivity {
         loginbutton = findViewById(R.id.login);
         registerbutton = findViewById(R.id.register);
 
+/*        myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
+        myDB.execSQL("DROP TABLE useracc");
+        myDB.execSQL("DROP TABLE usersessionstats");
+        myDB.close();*/
+
         myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
 
         myDB.execSQL("create table if not exists useracc (" +
