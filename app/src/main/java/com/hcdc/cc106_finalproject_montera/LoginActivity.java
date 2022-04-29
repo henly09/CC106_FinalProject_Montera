@@ -46,7 +46,8 @@ public class LoginActivity extends AppCompatActivity {
                 "calories_burned integer," +
                 "steps_count integer," +
                 "distance integer," +
-                "created_at varchar(255)" +
+                "created_at varchar(255)," +
+                "duration varchar(255)" +
                 ")");
 
         myDB.close();

@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class RegisterActivity extends AppCompatActivity {
 
     SQLiteDatabase myDB;
-    EditText name, emailregistermain, passwordregistermain, confirmpassword;
+    EditText name, emailregistermain, passwordregistermain, confirmpassword,kg;
     Button createuser;
 
     @Override
@@ -25,11 +25,12 @@ public class RegisterActivity extends AppCompatActivity {
         emailregistermain = findViewById(R.id.emailregister);
         passwordregistermain = findViewById(R.id.passwordregister);
         confirmpassword = findViewById(R.id.confirmpassword);
+        kg = findViewById(R.id.weight);
         createuser = findViewById(R.id.createuser);
 
         createuser.setOnClickListener(view -> {
             if (passwordregistermain.getText().toString().equals(confirmpassword.getText().toString())){
-                register(emailregistermain.getText().toString(),passwordregistermain.getText().toString(),name.getText().toString());
+                register(emailregistermain.getText().toString(),passwordregistermain.getText().toString(),name.getText().toString(),kg.getText().toString(),"0");
             }
             else{
                 Toast.makeText(this, "Your Password and Confirm Password are not the same", Toast.LENGTH_SHORT).show();
@@ -38,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    public void register(String email, String password, String name){
+    public void register(String email, String password, String name, String kg, String sessions){
 
     try {
         myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
@@ -46,6 +47,8 @@ public class RegisterActivity extends AppCompatActivity {
         cv.put("name", name);
         cv.put("email", password);
         cv.put("password", email);
+        cv.put("user_kg", kg);
+        cv.put("count_sessions", sessions);
         myDB.insert("useracc", null, cv);
         myDB.close();
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);

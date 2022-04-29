@@ -15,12 +15,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataView>{
 
     private ArrayList<UserStats_Model> modelArrayList;
     private Context context;
-    SQLiteDatabase myDB;
 
     public DataAdapter(ArrayList<UserStats_Model> modelArrayList,Context context){
         this.modelArrayList = modelArrayList;
         this.context = context;
-        myDB = context.openOrCreateDatabase("cc106_pedometer.db", 0, null);
     }
 
     @NonNull

@@ -3,9 +3,12 @@ package com.hcdc.cc106_finalproject_montera;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -26,6 +29,7 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
     private TimerTask timerTask;
     private Double time = 0.0;
     private Integer goal_distance = 0;
+    SQLiteDatabase myDB;
+    private String extractedid;
+    private Double mainkg;
+    private int mainsession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,12 +152,50 @@ public class MainActivity extends AppCompatActivity {
         });
 
         endsessionmain.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, ViewActivity.class);
-            intent.putExtra("sessionnumber","");
-            intent.putExtra("steps",steps.getText().toString());
-            intent.putExtra("distance",distance.getText().toString());
-            intent.putExtra("calburned",calburned.getText().toString());
-            intent.putExtra("timer",timerText.getText().toString());
+            Intent myname = getIntent();
+            String name = myname.getStringExtra("name");
+
+            myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
+            Cursor acc_count = myDB.rawQuery("SELECT user_id AS user_id FROM useracc where useracc.name = ?;", new String[] {name});
+            while (acc_count.moveToNext()){
+                int countindex = acc_count.getColumnIndex("user_id");
+                extractedid = acc_count.getString(countindex);
+            }
+            myDB.close();
+
+            myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
+            ContentValues cv = new ContentValues();
+            cv.put("user_id", extractedid);
+            cv.put("calories_burned", calburned.getText().toString());
+            cv.put("steps_count", steps.getText().toString());
+            cv.put("distance", distance.getText().toString());
+            cv.put("created_at", String.valueOf(Calendar.getInstance().getTime()));
+            cv.put("duration", timerText.getText().toString());
+            myDB.insert("usersessionstats ", null, cv);
+            myDB.close();
+
+            myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
+            Cursor extrac_kg_session = myDB.rawQuery("SELECT user_kg,count_sessions FROM useracc where useracc.name = ? AND user_id =?;", new String[] {name,extractedid});
+            while (extrac_kg_session.moveToNext()){
+                int countkg = extrac_kg_session.getColumnIndex("user_kg");
+                int countsession = extrac_kg_session.getColumnIndex("count_sessions");
+                String testkg = extrac_kg_session.getString(countkg);
+                String testsession = extrac_kg_session.getString(countsession);
+                mainkg = Double.parseDouble(testkg);
+                mainsession = Integer.parseInt(testsession);
+            }
+            myDB.close();
+
+            myDB = openOrCreateDatabase("cc106_pedometer.db", 0, null);
+            ContentValues cv2 = new ContentValues();
+            mainkg = mainkg - (Double.parseDouble(calburned.getText().toString()) * 0.00013);
+            mainsession = mainsession + 1;
+            cv2.put("user_kg", mainkg);
+            cv2.put("count_sessions", mainsession);
+            myDB.update("useracc", cv2, "user_id ="+extractedid, null);
+            myDB.close();
+
+            Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
             startActivity(intent);
             Toast.makeText(MainActivity.this, "Session Finished!", Toast.LENGTH_SHORT).show();
         });
